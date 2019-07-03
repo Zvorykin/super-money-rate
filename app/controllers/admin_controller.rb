@@ -1,7 +1,5 @@
-class AdminController < ApplicationController
-  def index
-  end
+# frozen_string_literal: true
 
-  def update
-  end
+class AdminController < ApplicationController
+  def index; end
 end

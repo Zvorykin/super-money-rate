@@ -2,6 +2,16 @@
 
 class RatesController < ApplicationController
   def index
-    render json: { asdasd: 1 }
+    render json: UsdRateService.call
+  end
+
+  def update
+    param! :value, Float, required: true
+    param! :due, DateTime, required: true
+
+    FixedRate.create(
+      due: params[:due],
+      value: params[:value]
+    )
   end
 end

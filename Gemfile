@@ -10,6 +10,13 @@ gem 'puma', '~> 3.11'
 gem 'rails', '~> 5.2.3'
 gem 'rails_param'
 
+# Sidekiq
+gem 'sidekiq'
+gem 'sidekiq-scheduler'
+
+# Database
+gem 'sqlite3'
+
 group :development do
   gem 'webpacker'
 
@@ -22,7 +29,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 3.8'
 end
