@@ -5,6 +5,14 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
 
+// Websocket
+import ActionCableVue from 'actioncable-vue';
+Vue.use(ActionCableVue, {
+  debug: true,
+  debugLevel: 'error',
+  connectionUrl: 'http://127.0.0.1:3000/websocket'
+});
+
 // Moment
 import moment from 'moment'
 moment.defaultFormat = 'YYYY-MM-DD HH:mm'

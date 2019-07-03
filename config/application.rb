@@ -33,5 +33,7 @@ module PhotoTags
     config.api_only = true
 
     config.time_zone = 'UTC'
+
+    config.action_cable.mount_path = '/websocket'
   end
 end
