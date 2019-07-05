@@ -1,13 +1,19 @@
 import Router from 'vue-router'
 
-// import HitsGrid from './components/hits_grid'
+import Admin from './components/admin'
+import CurrentRate from './components/current_rate'
 
 export default new Router({
   routes: [
-    // {
-    //   path: '/hits',
-    //   name: 'HitsGrid',
-    //   component: HitsGrid,
-    // },
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: Admin,
+    },
+    {
+      path: '/',
+      name: 'CurrentRate',
+      component: CurrentRate,
+    },
   ],
 })

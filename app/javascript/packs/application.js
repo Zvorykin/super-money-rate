@@ -1,5 +1,10 @@
 import Vue from 'vue/dist/vue.esm'
 
+// Router
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
+import router from './router'
+
 // Axios
 import axios from 'axios'
 import VueAxios from 'vue-axios'
@@ -10,7 +15,7 @@ import ActionCableVue from 'actioncable-vue';
 Vue.use(ActionCableVue, {
   debug: true,
   debugLevel: 'error',
-  connectionUrl: 'http://127.0.0.1:3000/websocket'
+  connectionUrl: `${location.origin}/websocket`
 });
 
 // Moment
@@ -28,7 +33,6 @@ import quasarConf from './quasar'
 Vue.use(Quasar, quasarConf)
 
 Vue.config.productionTip = false
-// import router from './router'
 
 // App
 import App from '../App.vue'
@@ -36,6 +40,6 @@ import App from '../App.vue'
 /* eslint-disable no-new */
 new Vue({
   components: { App },
-  // router,
+  router,
   template: '<App/>',
 }).$mount('#app')
