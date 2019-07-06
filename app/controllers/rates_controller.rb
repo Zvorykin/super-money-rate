@@ -15,9 +15,7 @@ class RatesController < ApplicationController
 
     fixed_rate = FixedRatesService.update(*params.values_at(:value, :ends_at))
 
-    ActionCable.server.broadcast('rates_channel',
-                                 title: 'rate updated',
-                                 body: { value: fixed_rate.value })
+    BroadcastRateService.call(fixed_rate.value)
 
     render json: fixed_rate, status: :created
   end

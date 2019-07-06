@@ -1,7 +1,9 @@
 <template lang="pug">
-  q-card
+  q-card#card
     q-card-section
-      p Current rate: {{ value }}
+      q-field(borderless)
+        template(v-slot:control="")
+          div.self-center.full-width.no-outline Current rate: {{ value }}
 </template>
 
 <script>
@@ -10,15 +12,8 @@
     channels: {
       RatesChannel: {
         received({ title, body }) {
-          if (title === 'rate updated') {
+          if (title === 'rate updated' && body && body.value ) {
             this.value = body.value
-
-            this.$q.notify({
-              color: 'secondary',
-              position: 'top',
-              message: 'Rate updated!',
-              timeout: 2000,
-            })
           }
         },
       },
@@ -30,10 +25,15 @@
     },
     computed: {},
     watch: {},
-    methods: {}
+    methods: {},
+    mounted() {
+      this.$cable.subscribe({ channel: 'RatesChannel' })
+    },
   }
 </script>
 
 <style scoped>
-
+  #card {
+    width: 150px
+  }
 </style>

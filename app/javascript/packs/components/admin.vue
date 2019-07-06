@@ -1,11 +1,16 @@
 <template lang='pug'>
-  q-card
-    q-card-section.q-gutter-y-md
-      q-input(v-model="formData.value" label="Value" mask="#.##" fill-mask="0" outlined)
-      q-input(v-model="formData.date" type='date' hint="Fix end date" outlined)
-      q-input(v-model="formData.time" type='time' hint="Fix end time" outlined)
+  q-card#card
+    q-card-section.q-gutter-y-md.q-gutter-x-md.row
+      q-input(v-model="formData.value" label="Value" mask="#.##" fill-mask="0" outlined).col
+      q-field(outlined label="Ends at" stack-label).col
+        template(v-slot:control="")
+          div.self-center.full-width.no-outline {{ formData.endsAt }}
+    q-card-section.q-gutter-y-md.q-gutter-x-md.row
+      q-date(v-model='formData.endsAt' mask="YYYY-MM-DD HH:mm").col
+      q-time(v-model='formData.endsAt' format24h mask="YYYY-MM-DD HH:mm").col
     q-card-section.row.justify-end
-      q-btn(color="primary" :loading="loading" @click='submit') Submit
+      q-btn(color="primary" :loading="loading" :disable='!submitEnabled'
+        @click='submit') Submit
         template(v-slot:loading='')
           q-spinner-tail
 </template>
@@ -15,14 +20,19 @@
     data() {
       return {
         formData: {
-          value: 1.10,
-          date: '2019-07-10',
-          time: '10:30',
+          value: '1.10',
+          endsAt: '2019-09-20 10:30',
         },
         loading: false,
       }
     },
-    computed: {},
+    computed: {
+      submitEnabled() {
+        return this.formData.value &&
+          this.formData.value > 0 &&
+          this.$moment(this.formData.endsAt).isAfter(new Date())
+      },
+    },
     watch: {},
     methods: {
       async submit() {
@@ -36,24 +46,29 @@
         })
       },
       async fixRate() {
-        const [hour, minute] = this.formData.time.split(':')
-        const endsAt = this.$moment(this.formData.date).set({
-          'hour': hour,
-          'minute': minute,
-        })
-
         await this.axios({
           method: 'PUT',
           url: `v1/rates`,
-          data: {
-            value: this.formData.value,
-            endsAt,
-          },
+          data: this.formData,
         })
       },
+      async refreshRate() {
+        const cb = async () => {
+          const { data = {} } = await this.axios.get(`v1/admin`)
+          if (data.value) this.formData.value = data.value.toString()
+        }
+
+        await this.$errorHandle(this, cb)
+      },
+    },
+    async mounted() {
+      await this.refreshRate()
     },
   }
 </script>
 
 <style scoped>
+  #card {
+    width: 700px;
+  }
 </style>

@@ -15,7 +15,7 @@ import ActionCableVue from 'actioncable-vue';
 Vue.use(ActionCableVue, {
   debug: true,
   debugLevel: 'error',
-  connectionUrl: `${location.origin}/websocket`
+  connectionUrl: `${ location.origin }/websocket`
 });
 
 // Moment
