@@ -6,7 +6,7 @@ class RatesController < ApplicationController
   end
 
   def update
-    param! :value, Float, required: true, min: 0.01
+    param! :value, Float, required: true, min: 0.0001
     param! :ends_at, DateTime, required: true
 
     if params[:ends_at] < Time.now

@@ -2,7 +2,7 @@
 
 require 'net/http'
 
-module UsdRateService
+module RemoteRateService
   class << self
     RATES_URL = URI.parse('https://www.cbr-xml-daily.ru/daily_json.js')
 

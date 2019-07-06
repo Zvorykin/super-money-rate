@@ -1,12 +1,12 @@
 <template lang='pug'>
   q-card#card
     q-card-section.q-gutter-y-md.q-gutter-x-md.row
-      q-input(v-model="formData.value" label="Value" mask="#.##" fill-mask="0" outlined).col
+      q-input(v-model="formData.value" label="Value" mask="##.####" fill-mask="0" outlined).col
       q-field(outlined label="Ends at" stack-label).col
         template(v-slot:control="")
           div.self-center.full-width.no-outline {{ formData.endsAt }}
     q-card-section.q-gutter-y-md.q-gutter-x-md.row
-      q-date(v-model='formData.endsAt' mask="YYYY-MM-DD HH:mm").col
+      q-date(v-model='formData.endsAt' today-btn mask="YYYY-MM-DD HH:mm").col
       q-time(v-model='formData.endsAt' format24h mask="YYYY-MM-DD HH:mm").col
     q-card-section.row.justify-end
       q-btn(color="primary" :loading="loading" :disable='!submitEnabled'
@@ -20,8 +20,8 @@
     data() {
       return {
         formData: {
-          value: '1.10',
-          endsAt: '2019-09-20 10:30',
+          value: '01.1243',
+          endsAt: '2019-07-20 10:30',
         },
         loading: false,
       }
@@ -49,13 +49,19 @@
         await this.axios({
           method: 'PUT',
           url: `v1/rates`,
-          data: this.formData,
+          data: {
+            ...this.formData,
+            endsAt: this.$moment(this.formData.endsAt).utc()
+          },
         })
       },
       async refreshRate() {
         const cb = async () => {
           const { data } = await this.axios.get(`v1/admin`)
-          if (data && data.value) this.formData.value = data.value.toString()
+          if (data) {
+            if (data.value) this.formData.value = data.value.toString()
+            if (data.ends_at) this.formData.endsAt = this.$moment(data.ends_at).format()
+          }
         }
 
         await this.$errorHandle(this, cb)

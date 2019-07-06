@@ -11,7 +11,7 @@ export default new Router({
       component: Admin,
     },
     {
-      path: '/',
+      path: '/current-rate',
       name: 'CurrentRate',
       component: CurrentRate,
     },

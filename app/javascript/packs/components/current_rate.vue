@@ -8,7 +8,6 @@
 
 <script>
   export default {
-    components: {},
     channels: {
       RatesChannel: {
         received({ title, body }) {
@@ -20,7 +19,7 @@
     },
     data() {
       return {
-        value: 0
+        value: '-'
       }
     },
     computed: {},
@@ -34,6 +33,6 @@
 
 <style scoped>
   #card {
-    width: 150px
+    width: 200px
   }
 </style>

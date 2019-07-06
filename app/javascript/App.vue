@@ -2,7 +2,7 @@
   q-layout(view='hHh lpR fFf').fullscreen
     q-drawer(v-model="drawerVisible" :width="150")
       q-tabs(vertical).text-white.bg-primary
-        q-route-tab(to="/") Current rate
+        q-route-tab(to="/current-rate") Current rate
         q-route-tab(to="/admin") Admin
     q-page-container
       q-page.cards-container

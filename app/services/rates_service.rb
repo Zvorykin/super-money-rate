@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'net/http'
-
 module RatesService
   # TODO: should we use Redis instead of SQL?
   class << self
@@ -21,16 +19,19 @@ module RatesService
       Rate.non_fixed.newest.first
     end
 
-    def create_non_fixed_rate(value)
-      rate = newest_non_fixed_rate
+    def newest_rate_update_ends_at
+      rate = Rate.newest
       rate.update(ends_at: Time.now) if rate.present?
+    end
+
+    def create_non_fixed_rate(value)
+      newest_rate_update_ends_at
 
       Rate.create!(value: value)
     end
 
     def create_fixed_rate(value, ends_at)
-      rate = current_fixed_rate
-      rate.update(ends_at: Time.now) if rate.present?
+      newest_rate_update_ends_at
 
       Rate.create!(value: value,
                    ends_at: ends_at,

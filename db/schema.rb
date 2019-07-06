@@ -14,7 +14,7 @@ ActiveRecord::Schema.define(version: 2019_07_03_154515) do
 
   create_table "rates", force: :cascade do |t|
     t.float "value", null: false
-    t.datetime "ends_at", null: false
+    t.datetime "ends_at"
     t.boolean "fixed", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

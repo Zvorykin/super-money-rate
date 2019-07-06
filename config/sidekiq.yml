@@ -1,0 +1,3 @@
+:schedule:
+  RateRefreshWorker:
+    every: '10s'
