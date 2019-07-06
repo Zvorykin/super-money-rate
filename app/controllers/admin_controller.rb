@@ -2,6 +2,6 @@
 
 class AdminController < ApplicationController
   def index
-    render json: FixedRatesService.newest_fixed_rate
+    render json: RatesService.newest_fixed_rate
   end
 end

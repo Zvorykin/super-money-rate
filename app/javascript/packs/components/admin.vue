@@ -54,8 +54,8 @@
       },
       async refreshRate() {
         const cb = async () => {
-          const { data = {} } = await this.axios.get(`v1/admin`)
-          if (data.value) this.formData.value = data.value.toString()
+          const { data } = await this.axios.get(`v1/admin`)
+          if (data && data.value) this.formData.value = data.value.toString()
         }
 
         await this.$errorHandle(this, cb)

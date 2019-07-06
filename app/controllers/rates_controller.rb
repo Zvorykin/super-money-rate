@@ -2,7 +2,7 @@
 
 class RatesController < ApplicationController
   def index
-    render json: UsdRateService.call
+    render json: RatesService.current_rate
   end
 
   def update
@@ -13,7 +13,7 @@ class RatesController < ApplicationController
       raise RailsParam::Param::InvalidParameterError.new('ends_at should be in future')
     end
 
-    fixed_rate = FixedRatesService.update(*params.values_at(:value, :ends_at))
+    fixed_rate = RatesService.create_fixed_rate(*params.values_at(:value, :ends_at))
 
     BroadcastRateService.call(fixed_rate.value)
 
