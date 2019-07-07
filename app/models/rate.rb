@@ -2,7 +2,7 @@
 
 class Rate < ApplicationRecord
   validates :value, numericality: { greater_than: 0 }
-  # validates :ends_at, :presence, if: proc { |r| r.fixed == true }
+  validates :ends_at, presence: true, if: proc { |r| r.fixed == true }
 
   scope :fixed, -> { where(fixed: true) }
   scope :non_fixed, -> { where(fixed: false) }

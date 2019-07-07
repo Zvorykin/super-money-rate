@@ -20,7 +20,7 @@ module RatesService
     end
 
     def newest_rate_update_ends_at
-      rate = Rate.newest
+      rate = Rate.newest.first
       rate.update(ends_at: Time.now) if rate.present?
     end
 
