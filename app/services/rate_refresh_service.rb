@@ -11,12 +11,13 @@ module RateRefreshService
         return
       end
 
-      non_fixed_rate = RatesService.newest_non_fixed_rate || {}
+      non_fixed_rate = RatesService.newest_non_fixed_rate
 
-      BroadcastRateService.call(remote_rate_value) if non_fixed_rate[:ends_at].nil?
+      return if non_fixed_rate.present? && non_fixed_rate[:ends_at].nil?
 
-      RatesService.create_non_fixed_rate(remote_rate_value) \
-      unless non_fixed_rate[:value] == remote_rate_value.to_f
+      new_rate = RatesService.create_non_fixed_rate(remote_rate_value)
+      BroadcastRateService.call(remote_rate_value)
+      new_rate
     end
   end
 end

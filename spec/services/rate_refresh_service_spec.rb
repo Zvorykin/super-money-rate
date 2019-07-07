@@ -20,10 +20,15 @@ RSpec.describe RateRefreshService do
   describe 'rate refresh' do
     let(:new_value) { 61.3 }
 
-    it 'create new record and broadcast value' do
+    it 'create new record' do
       allow(RemoteRateService).to receive(:call) { new_value }
 
       is_expected.to have_attributes(value: new_value)
+    end
+
+    it 'create new record and broadcast value' do
+      allow(RemoteRateService).to receive(:call) { new_value }
+
       expect { described_class.call }
         .to have_broadcasted_to('rates_channel')
         .with(title: 'rate updated', body: { value: new_value })
